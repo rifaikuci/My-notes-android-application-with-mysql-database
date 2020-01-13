@@ -1,4 +1,4 @@
-package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase;
+package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

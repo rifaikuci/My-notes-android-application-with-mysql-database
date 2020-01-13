@@ -1,4 +1,6 @@
-package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase;
+package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.api;
+
+import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.model.Note;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

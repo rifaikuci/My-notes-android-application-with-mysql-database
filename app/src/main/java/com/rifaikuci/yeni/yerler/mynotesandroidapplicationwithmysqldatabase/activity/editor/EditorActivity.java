@@ -1,4 +1,4 @@
-package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase;
+package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.activity.editor;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,20 +11,24 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.Note;
+import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.R;
+import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.api.ApiClient;
+import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.api.ApiInterface;
+import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.model.Note;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity implements  EditorView {
 
     EditText et_title, et_note;
     ProgressDialog progressDialog;
     SpectrumPalette palette;
     ApiInterface apiInterface;
     int color;
+    EditorPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,7 @@ public class EditorActivity extends AppCompatActivity {
         et_note = (EditText) findViewById(R.id.note);
         palette = (SpectrumPalette) findViewById(R.id.palette);
 
+        presenter = new EditorPresenter(this);
         palette.setOnColorSelectedListener(
 
                 clr->color =clr);
@@ -69,7 +74,7 @@ public class EditorActivity extends AppCompatActivity {
                 else if(title.isEmpty()){
                     et_note.setError("Please Enter a Note");
                 }else {
-                    saveNote(title,note,color);
+                    presenter.saveNote(title,note,color);
                 }
                 return true;
             default:
@@ -78,41 +83,27 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
-    private void saveNote(final String title, final  String note, final  int color) {
+
+    @Override
+    public void showProgress() {
         progressDialog.show();
+    }
 
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<Note> call = apiInterface.saveNote(title,note,color);
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
 
-        call.enqueue(new Callback<Note>() {
-            @Override
-            public void onResponse(@NonNull Call<Note> call,@NonNull Response<Note> response) {
-                progressDialog.dismiss();
+    }
 
-                if(response.isSuccessful() && response.body() != null){
-                    Boolean success = response.body().getSuccess();
+    @Override
+    public void onAddSuccess(String message) {
+        Toast.makeText(EditorActivity.this,message,Toast.LENGTH_SHORT).show();
+                      finish();
 
-                    if(success){
-                        Toast.makeText(EditorActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
-                        finish();
-                    }else
-                    {
-                        Toast.makeText(EditorActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
-                        System.out.println("yazdır"+response.body().getMessage());
-                    }
-                }
-            }
+    }
 
-            @Override
-            public void onFailure(@NonNull Call<Note> call,@NonNull Throwable t) {
-                Toast.makeText(EditorActivity.this,t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
-
-
-
-
-
+    @Override
+    public void onAddError(String message) {
+        Toast.makeText(EditorActivity.this,message,Toast.LENGTH_SHORT).show();
     }
 }

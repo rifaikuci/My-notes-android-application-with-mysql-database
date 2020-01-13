@@ -1,4 +1,4 @@
-package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase;
+package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.activity.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.R;
+import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.activity.editor.EditorActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),EditorActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
                 startActivity(intent);
             }
         });

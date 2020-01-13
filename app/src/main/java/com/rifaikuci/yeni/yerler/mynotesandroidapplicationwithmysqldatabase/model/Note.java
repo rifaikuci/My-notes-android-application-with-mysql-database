@@ -1,4 +1,4 @@
-package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase;
+package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
