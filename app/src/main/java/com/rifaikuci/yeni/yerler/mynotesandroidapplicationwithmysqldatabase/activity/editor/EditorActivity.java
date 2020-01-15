@@ -12,9 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.R;
-import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.api.ApiClient;
 import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.api.ApiInterface;
-import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.model.Note;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import retrofit2.Call;
