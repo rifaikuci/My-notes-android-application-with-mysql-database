@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 public interface ApiInterface {
 
     @FormUrlEncoded
-    @POST("/save.php")
+    @POST("save.php")
     Call<Note> saveNote(
         @Field("title") String title,
         @Field("note") String note,
@@ -25,13 +25,21 @@ public interface ApiInterface {
         //get Değerleri işlemleri burada alınacak
 
     @FormUrlEncoded
-    @POST("/update.php")
+    @POST("update.php")
     Call<Note> updateNote(
             @Field("id") int id,
             @Field("title") String title,
             @Field("note") String note,
             @Field("color") int color
     );
+
+    @FormUrlEncoded
+    @POST("delete.php")
+    Call<Note> deleteNote( @Field("id") int id
+
+    );
+
+
 
 
 
