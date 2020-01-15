@@ -1,5 +1,6 @@
 package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.activity.main;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
+    private static final int INTENT_ADD =100 ;
+    private static final int INTENT_EDIT =200 ;
     FloatingActionButton fab;
     SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,INTENT_ADD);
             }
         });
 
@@ -56,10 +59,31 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         itemClickListener = ((view, position) -> {
 
+            int id = note.get(position).getId();
             String title = note.get(position).getTitle();
-            Toast.makeText(this,title,Toast.LENGTH_SHORT).show();
+            String notes= note.get(position).getNote();
+            int color = note.get(position).getColor();
+
+
+            Intent intent = new Intent(this,EditorActivity.class);
+            intent.putExtra("id",id);
+            intent.putExtra("title",title);
+            intent.putExtra("color",color);
+            intent.putExtra("note",notes);
+            startActivityForResult(intent,INTENT_EDIT);
 
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode ==INTENT_ADD &&  resultCode == RESULT_OK){
+            presenter.getData();
+        }else if(requestCode==INTENT_EDIT && resultCode==RESULT_OK){
+            presenter.getData();
+        }
     }
 
     @Override

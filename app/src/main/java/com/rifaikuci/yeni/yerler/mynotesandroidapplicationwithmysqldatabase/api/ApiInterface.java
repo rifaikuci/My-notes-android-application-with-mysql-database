@@ -24,6 +24,17 @@ public interface ApiInterface {
     Call<List<Note>> getNotes();
         //get Değerleri işlemleri burada alınacak
 
+    @FormUrlEncoded
+    @POST("/update.php")
+    Call<Note> updateNote(
+            @Field("id") int id,
+            @Field("title") String title,
+            @Field("note") String note,
+            @Field("color") int color
+    );
+
+
+
 
 
 }

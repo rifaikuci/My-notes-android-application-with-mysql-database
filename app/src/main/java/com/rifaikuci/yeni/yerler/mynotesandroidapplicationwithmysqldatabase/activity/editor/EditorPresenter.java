@@ -1,7 +1,5 @@
 package com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.activity.editor;
 
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import com.rifaikuci.yeni.yerler.mynotesandroidapplicationwithmysqldatabase.api.ApiClient;
@@ -36,12 +34,12 @@ public class EditorPresenter {
                     Boolean success = response.body().getSuccess();
 
                     if(success){
-                        view.onAddSuccess(response.body().getMessage());
+                        view.onRequestSuccess(response.body().getMessage());
 //                        Toast.makeText(EditorActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
 //                        finish();
                     }else
                     {
-                        view.onAddError(response.body().getMessage());
+                        view.onRequestError(response.body().getMessage());
 //                        Toast.makeText(EditorActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
 //                        System.out.println("yazdır"+response.body().getMessage());
                     }
@@ -51,16 +49,49 @@ public class EditorPresenter {
             @Override
             public void onFailure(@NonNull Call<Note> call,@NonNull Throwable t) {
                 view.hideProgress();
-                view.onAddError(t.getLocalizedMessage());
+                view.onRequestError(t.getLocalizedMessage());
 
 //                Toast.makeText(EditorActivity.this,t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
 //                finish();
             }
         });
 
+    }
 
+    void updateNote(int id, String title, String note, int color){
+        view.showProgress();
+        ApiInterface apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
 
+        Call<Note> call = apiInterface.updateNote(id,title,note,color);
+        call.enqueue(new Callback<Note>() {
+            @Override
+            public void onResponse(@NonNull Call<Note> call, @NonNull Response<Note> response) {
+                view.hideProgress();
 
+                if(response.isSuccessful() && response.body() != null){
+                    Boolean success = response.body().getSuccess();
 
+                    if(success){
+                        view.onRequestSuccess(response.body().getMessage());
+//                        Toast.makeText(EditorActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+//                        finish();
+                    }else
+                    {
+                        view.onRequestError(response.body().getMessage());
+//                        Toast.makeText(EditorActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+//                        System.out.println("yazdır"+response.body().getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Note> call,@NonNull Throwable t) {
+                view.hideProgress();
+                view.onRequestError(t.getLocalizedMessage());
+
+//                Toast.makeText(EditorActivity.this,t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+//                finish();
+            }
+        });
     }
 }
